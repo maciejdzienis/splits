@@ -10,7 +10,8 @@
         android:id="@+id/tvTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="108sp"
+        android:layout_marginTop="20dp"
+        android:textSize="72sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -26,7 +27,6 @@
         android:textColor="@color/teal_200"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvTimer"
-        app:layout_constraintEnd_toStartOf="@+id/tvTimer"
         app:layout_constraintStart_toStartOf="@+id/btnAddDelay"
         app:layout_constraintTop_toTopOf="@+id/tvTimer"
         app:rippleColor="@color/white" />
@@ -41,7 +41,6 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvTimer"
         app:layout_constraintEnd_toEndOf="@+id/btnReduceDelay"
-        app:layout_constraintStart_toEndOf="@+id/tvTimer"
         app:layout_constraintTop_toTopOf="@+id/tvTimer"
         app:rippleColor="@color/white" />
 
@@ -49,7 +48,7 @@
         android:id="@+id/tvDelay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="108sp"
+        android:textSize="72sp"
         app:layout_constraintBottom_toTopOf="@+id/tvTimer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,48 +89,53 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/delay_sec"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/tvDelay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/split_time_sec"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/tvTimer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDelay" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnLoop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:contentDescription="@string/app_name"
         android:scaleX="1.5"
         android:scaleY="1.5"
         android:src="@drawable/ic_baseline_loop"
         app:backgroundTint="@color/teal_200"
         app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimer" />
+        app:layout_constraintHorizontal_bias="0.326"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnStart"
-        app:fabCustomSize="72sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_baseline_start"
         app:backgroundTint="@color/teal_200"
+        app:fabCustomSize="72sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -139,14 +143,14 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnStop"
-        app:fabCustomSize="72sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_baseline_pause"
         android:visibility="invisible"
         app:backgroundTint="@color/teal_200"
+        app:fabCustomSize="72sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
