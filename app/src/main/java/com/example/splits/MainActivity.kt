@@ -34,16 +34,6 @@ class MainActivity : AppCompatActivity() {
         //ON CLICK EVENTS
 
         startButton.setOnClickListener {
-
-//            if (loopJob?.isActive == true) {
-//
-//                loopJob?.cancel()
-//                infiniteLoopJob?.cancel()
-//                startButton.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.ic_baseline_start))
-//            } else {
-//                startButton.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.ic_baseline_pause))
-//            }
-
             when (timer.infiniteLoop) {
                 false -> {
                         timer.playOnce()
@@ -84,12 +74,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         addDelayButton.setOnClickListener {
-            timer.addDelay()
+            timer.modifyDelay("+")
             delayTextView.text = timer.delay.toString()
         }
 
         reduceDelayButton.setOnClickListener {
-            timer.reduceDelay()
+            timer.modifyDelay("-")
             delayTextView.text = timer.delay.toString()
         }
 
@@ -102,8 +92,6 @@ class MainActivity : AppCompatActivity() {
             timer.reduceTime()
             timeTextView.text = timer.threshold()
         }
-
-
     }
 }
 
@@ -169,12 +157,11 @@ class Timer {
         return "$seconds.$tenthSeconds"
     }
 
-    fun addDelay() {
-        delay++
-    }
-
-    fun reduceDelay() {
-        if (delay > 2) delay-- else delay
+    fun modifyDelay( modifier: String) {
+        when(modifier) {
+            "+" -> delay++
+            "-" -> if (delay > 2) delay-- else delay
+        }
     }
 
     private fun addSecond(): Long {
