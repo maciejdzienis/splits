@@ -36,7 +36,9 @@ class MainActivity : AppCompatActivity() {
         startButton.setOnClickListener {
             when (timer.infiniteLoop) {
                 false -> {
-                        timer.playOnce()
+                    timer.playOnce()
+                    startButton.hide()
+                    stopButton.show()
                 }
                 true -> {
                     timer.playInfiniteLoop()
