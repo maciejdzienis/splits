@@ -34,18 +34,13 @@ class MainActivity : AppCompatActivity() {
         //ON CLICK EVENTS
 
         startButton.setOnClickListener {
-            when (timer.infiniteLoop) {
-                false -> {
-                    timer.playOnce()
-                    startButton.hide()
-                    stopButton.show()
-                }
-                true -> {
+            if (loopJob?.isActive != true && !timer.infiniteLoop) {
+                timer.playOnce()
+            } else if (timer.infiniteLoop) {
                     timer.playInfiniteLoop()
                     startButton.hide()
                     stopButton.show()
                 }
-            }
         }
 
         stopButton.setOnClickListener() {
@@ -118,22 +113,21 @@ class Timer {
         var i = 0
         val tg = ToneGenerator(AudioManager.STREAM_ALARM, 1000)
         loopJob = GlobalScope.launch {
-            while (i < delay) {
-                tg.startTone(ToneGenerator.TONE_PROP_BEEP, 35)
-                delay(965)
-                ++i
-            }
-            i = 0
-            tg.startTone(ToneGenerator.TONE_PROP_PROMPT, 200)
-            delay((seconds * 1000) + (tenthSeconds + 100))
-            tg.startTone(ToneGenerator.TONE_PROP_PROMPT, 200)
+                while (i < delay) {
+                    tg.startTone(ToneGenerator.TONE_PROP_BEEP, 35)
+                    delay(965)
+                    ++i
+                }
+                i = 0
+                tg.startTone(ToneGenerator.TONE_PROP_PROMPT, 200)
+                delay((seconds * 1000) + (tenthSeconds + 100))
+                tg.startTone(ToneGenerator.TONE_PROP_PROMPT, 200)
         }
-
     }
 
     fun playInfiniteLoop() {
         var i = 0
-        val tg = ToneGenerator(AudioManager.STREAM_ALARM, 1000)
+        val tg = ToneGenerator(AudioManager.STREAM_ALARM, 100)
         infiniteLoopJob = GlobalScope.launch {
             while (isActive) {
                 while (i < delay) {
