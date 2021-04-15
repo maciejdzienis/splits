@@ -6,4 +6,7 @@
     <string name="infinite_loop">Infinite loop</string>
     <string name="delay_sec">Delay (sec)</string>
     <string name="split_time_sec">Split Time (sec)</string>
+    <string name="empty_list">Nothing to show</string>
+    <string name="item_added">Added</string>
+    <string name="item_already_added">Item already added</string>
 </resources>
