@@ -90,9 +90,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun likedNav() {
         timer.stop()
+        val nothingToShow = resources.getString(R.string.empty_list)
+
         //EXPLICIT INTENT
         var likedIntent = Intent(applicationContext, LikedActivity::class.java)
-        var emptyList = Toast.makeText(applicationContext, R.string.empty_list, Toast.LENGTH_SHORT)
+        var emptyList = Toast.makeText(applicationContext, nothingToShow, Toast.LENGTH_SHORT)
         if (LikedDataBase.likedDelay.isNotEmpty()) startActivity(likedIntent) else emptyList.show()
     }
 
