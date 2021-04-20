@@ -9,11 +9,12 @@
         android:id="@+id/tvLikedDelay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="@string/delay_sec"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvLikedDelayValue"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,20 +28,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvLikedSplitValue"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/tvLikedDelayValue"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnRemoveItem"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:text="-"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_baseline_delete"
         android:textColor="@color/teal_200"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/tvLikedSplitValue"
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="@color/white" />
@@ -55,6 +58,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/tvLikedDelay"
         app:layout_constraintEnd_toStartOf="@+id/tvLikedSplit"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/tvLikedDelay"
         app:layout_constraintTop_toTopOf="@+id/tvLikedDelay" />
 
@@ -68,6 +72,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/tvLikedSplit"
         app:layout_constraintEnd_toStartOf="@+id/btnRemoveItem"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/tvLikedSplit"
         app:layout_constraintTop_toTopOf="@+id/tvLikedSplit" />
 

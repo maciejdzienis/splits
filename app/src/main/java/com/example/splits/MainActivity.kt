@@ -22,9 +22,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         //INIT
-        binding.tvDelay.text = timer.delay.toString()
-        binding.tvTimer.text = timer.threshold()
-
+        //RECEIVE AND SET EXTRAS FROM LIKED IF EXIST
+        var bundle :Bundle ?= intent.extras
+        if (bundle != null) {
+            binding.tvDelay.text = bundle.getString("delay_value")
+            binding.tvTimer.text = bundle.getString("split_value")
+        } else {
+            //SET DEFAULT
+            binding.tvDelay.text = timer.delay.toString()
+            binding.tvTimer.text = timer.threshold()
+        }
         //ONCLICK EVENTS
 
         binding.btnStart.setOnClickListener {
