@@ -2,6 +2,7 @@ package com.example.splits
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -25,12 +26,16 @@ class MainActivity : AppCompatActivity() {
         //RECEIVE AND SET EXTRAS FROM LIKED IF EXIST
         var bundle :Bundle ?= intent.extras
         if (bundle != null) {
-            binding.tvDelay.text = bundle.getString("delay_value")
-            binding.tvTimer.text = bundle.getString("split_value")
+            var delayValue = bundle.getString("delay_value")
+            var splitValue = bundle.getString("split_value")
+            binding.tvDelay.text = delayValue
+            binding.tvTimer.text = splitValue
+            timer.delay = delayValue!!.toInt()
+            timer.split = splitValue!!.toDouble()
         } else {
             //SET DEFAULT
             binding.tvDelay.text = timer.delay.toString()
-            binding.tvTimer.text = timer.threshold()
+            binding.tvTimer.text = timer.split.toString()
         }
         //ONCLICK EVENTS
 
@@ -66,13 +71,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnAddSplit.setOnClickListener {
-            timer.addTime()
-            binding.tvTimer.text = timer.threshold()
+            timer.modifySplit("+")
+            Log.d("TAG", timer.split.toString())
+            binding.tvTimer.text = timer.split.toString()
         }
 
         binding.btnReduceSplit.setOnClickListener {
-            timer.reduceTime()
-            binding.tvTimer.text = timer.threshold()
+            timer.modifySplit("-")
+            binding.tvTimer.text = timer.split.toString()
         }
 
         //MENU ITEM ACTIONS
@@ -109,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         val added = resources.getString(R.string.item_added)
         val alreadyAdded = resources.getString(R.string.item_already_added)
         val delay = timer.delay.toString()
-        val split = timer.threshold()
+        val split = timer.split.toString()
         if (delay !in LikedDataBase.likedDelay || split !in LikedDataBase.likedSplit) {
             LikedDataBase.likedDelay.add(delay)
             LikedDataBase.likedSplit.add(split)

@@ -6,11 +6,13 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import kotlin.math.roundToLong
 
 class Timer {
     var delay = 5
-    var seconds = 1L
-    var tenthSeconds = 5L
+    var split :Double = 1.5
 
     fun playInfiniteLoop() {
         var i = 0
@@ -24,7 +26,8 @@ class Timer {
                 }
                 i = 0
                 tg.startTone(ToneGenerator.TONE_PROP_PROMPT, 200)
-                delay((seconds * 1000) + (tenthSeconds + 100))
+                var splitInMillis = split * 1000
+                delay(splitInMillis.toLong())
                 tg.startTone(ToneGenerator.TONE_PROP_PROMPT, 200)
                 delay(1000)
             }
@@ -35,9 +38,6 @@ class Timer {
         infiniteLoopJob?.cancel()
     }
 
-    fun threshold(): String {
-        return "$seconds.$tenthSeconds"
-    }
 
     fun modifyDelay( modifier: String) {
         when(modifier) {
@@ -46,30 +46,20 @@ class Timer {
         }
     }
 
-    private fun addSecond(): Long {
-        tenthSeconds = 0
-        return seconds++
-    }
-
-    private fun subtractSecond(): Long {
-        if (seconds > 0) {
-            tenthSeconds = 9
-            seconds--
+    fun modifySplit( modifier: String) {
+        val increment = 0.1
+        if (split >= 0.1) {
+            when (modifier) {
+                "+" -> split += increment
+                "-" -> split -= increment
+            }
+        } else {
+            when (modifier) {
+                "+" -> split += increment
+            }
         }
-        return seconds
-    }
-
-    fun addTime() {
-        when (tenthSeconds) {
-            9L -> addSecond()
-            in 0..8 -> tenthSeconds++
-        }
-    }
-
-    fun reduceTime() {
-        when (tenthSeconds) {
-            0L -> subtractSecond()
-            in 1..9 -> tenthSeconds--
-        }
+        val df = DecimalFormat("#.#")
+        df.roundingMode = RoundingMode.HALF_UP
+        split = df.format(split).toDouble()
     }
 }
