@@ -10,8 +10,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
+import com.example.splits.room.LikedDatabase
+import com.example.splits.room.LikedItem
+import kotlinx.coroutines.Job
 
-class LikedAdapter: RecyclerView.Adapter<LikedViewHolder>() {
+class LikedAdapter(private val likedList: List<LikedItem>): RecyclerView.Adapter<LikedViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LikedViewHolder {
@@ -21,22 +25,15 @@ class LikedAdapter: RecyclerView.Adapter<LikedViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return LikedDataBase.likedDelay.size
+        return likedList.size
     }
 
     override fun onBindViewHolder(holder: LikedViewHolder, position: Int) {
         val delay: TextView = holder.view.findViewById(R.id.tvLikedDelayValue)
         val split: TextView = holder.view.findViewById(R.id.tvLikedSplitValue)
-        val deleteItem: ImageButton = holder.view.findViewById(R.id.btnRemoveItem)
 
-        delay.text =  LikedDataBase.likedDelay[position]
-        split.text =  LikedDataBase.likedSplit[position]
-
-        deleteItem.setOnClickListener() {
-            LikedDataBase.likedDelay.removeAt(position)
-            LikedDataBase.likedSplit.removeAt(position)
-            notifyItemRemoved(holder.adapterPosition)
-        }
+        delay.text =  likedList[position].delayValue
+        split.text =  likedList[position].splitValue
 
         holder.view.setOnClickListener() {
             //EXPLICIT INTENT
