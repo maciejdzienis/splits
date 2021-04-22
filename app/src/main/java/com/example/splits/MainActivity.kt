@@ -6,8 +6,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.room.Room
 import com.example.splits.databinding.ActivityMainBinding
+import com.example.splits.room.LikedDatabase
+import com.example.splits.room.LikedItem
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +26,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        // ROOM DATABASE
+        val db = Room.databaseBuilder(
+            applicationContext,
+            LikedDatabase::class.java, "liked_database"
+        ).fallbackToDestructiveMigration()
+            .allowMainThreadQueries()
+            .build()
 
         //INIT
         //RECEIVE AND SET EXTRAS FROM LIKED IF EXIST
@@ -72,7 +85,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnAddSplit.setOnClickListener {
             timer.modifySplit("+")
-            Log.d("TAG", timer.split.toString())
             binding.tvTimer.text = timer.split.toString()
         }
 
@@ -89,6 +101,8 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_add -> {
+                val item = LikedItem(timer.delay.toString(), timer.split.toString())
+                db.likedDao().insert(item)
                 addLiked()
                 true
             }
@@ -103,24 +117,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun likedNav() {
         timer.stop()
-        val nothingToShow = resources.getString(R.string.empty_list)
-
         //EXPLICIT INTENT
         var likedIntent = Intent(applicationContext, LikedActivity::class.java)
-        var emptyList = Toast.makeText(applicationContext, nothingToShow, Toast.LENGTH_SHORT)
-        if (LikedDataBase.likedDelay.isNotEmpty()) startActivity(likedIntent) else emptyList.show()
+        startActivity(likedIntent)
     }
 
     private fun addLiked() {
         val added = resources.getString(R.string.item_added)
-        val alreadyAdded = resources.getString(R.string.item_already_added)
-        val delay = timer.delay.toString()
-        val split = timer.split.toString()
-        if (delay !in LikedDataBase.likedDelay || split !in LikedDataBase.likedSplit) {
-            LikedDataBase.likedDelay.add(delay)
-            LikedDataBase.likedSplit.add(split)
             showToast(added)
-        } else showToast(alreadyAdded)
+
     }
 }
 
