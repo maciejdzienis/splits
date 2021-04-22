@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/delay_sec"
+        android:text="@string/delay"
         android:textColor="@color/white"
         android:textSize="16sp" />
 
