@@ -2,10 +2,7 @@ package com.example.splits
 
 import android.media.AudioManager
 import android.media.ToneGenerator
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import kotlin.math.roundToLong
@@ -17,7 +14,7 @@ class Timer {
     fun playInfiniteLoop() {
         var i = 0
         val tg = ToneGenerator(AudioManager.STREAM_ALARM, 100)
-        infiniteLoopJob = GlobalScope.launch {
+        infiniteLoopJob = GlobalScope.launch(Dispatchers.Default) {
             while (isActive) {
                 while (i < delay) {
                     tg.startTone(ToneGenerator.TONE_PROP_BEEP, 35)
