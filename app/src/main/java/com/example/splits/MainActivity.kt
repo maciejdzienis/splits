@@ -3,6 +3,7 @@ package com.example.splits
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -36,20 +37,26 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         //INIT
+
+        val tvDelay: TextView = view.findViewById(R.id.tvDelay)
+        val tvTimer: TextView = view.findViewById(R.id.tvTimer)
+
         //RECEIVE AND SET EXTRAS FROM LIKED IF EXIST
-        var bundle :Bundle ?= intent.extras
-        if (bundle != null) {
-            var delayValue = bundle.getString("delay_value")
-            var splitValue = bundle.getString("split_value")
-            binding.tvDelay.text = delayValue
-            binding.tvTimer.text = splitValue
-            timer.delay = delayValue!!.toInt()
-            timer.split = splitValue!!.toDouble()
+
+        val delayValue = intent.getData("delay_value")
+        val splitValue = intent.getData("split_value")
+
+        if (delayValue != "intent is null") {
+            tvDelay.text = delayValue
+            tvTimer.text = splitValue
+            timer.delay = delayValue.toInt()
+            timer.split = splitValue.toDouble()
         } else {
-            //SET DEFAULT
-            binding.tvDelay.text = timer.delay.toString()
-            binding.tvTimer.text = timer.split.toString()
+            //USE OBJECT'S DATA
+            tvDelay.text = timer.delay.toString()
+            tvTimer.text = timer.split.toString()
         }
+
         //ONCLICK EVENTS
 
         binding.btnStart.setOnClickListener {
@@ -70,27 +77,6 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
             }
-        }
-
-
-        binding.btnAddDelay.setOnClickListener {
-            timer.modifyDelay("+")
-            binding.tvDelay.text = timer.delay.toString()
-        }
-
-        binding.btnReduceDelay.setOnClickListener {
-            timer.modifyDelay("-")
-            binding.tvDelay.text = timer.delay.toString()
-        }
-
-        binding.btnAddSplit.setOnClickListener {
-            timer.modifySplit("+")
-            binding.tvTimer.text = timer.split.toString()
-        }
-
-        binding.btnReduceSplit.setOnClickListener {
-            timer.modifySplit("-")
-            binding.tvTimer.text = timer.split.toString()
         }
 
         //MENU ITEM ACTIONS
@@ -125,7 +111,11 @@ class MainActivity : AppCompatActivity() {
     private fun addLiked() {
         val added = resources.getString(R.string.item_added)
             showToast(added)
+    }
 
+    //KOTLIN EXTENSION
+    private fun Intent.getData(key: String): String {
+        return extras?.getString(key) ?: "intent is null"
     }
 }
 

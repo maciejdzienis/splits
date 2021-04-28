@@ -8,7 +8,7 @@ import java.text.DecimalFormat
 import kotlin.math.roundToLong
 
 class Timer {
-    var delay = 5
+    var delay :Int = 5
     var split :Double = 1.5
 
     fun playInfiniteLoop() {

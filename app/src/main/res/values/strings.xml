@@ -1,8 +1,11 @@
 <resources>
-    <string name="app_name">Splits</string>
+    <string name="app_name">Splits!</string>
     <string name="delay_sec">Delay (sec)</string>
     <string name="delay">Delay (sec)</string>
     <string name="split_time_sec">Split Time (sec)</string>
-    <string name="split_time">Split (sec)</string>"
+    <string name="split_time">Split (sec)</string>
     <string name="item_added">Added</string>
+    <string name="tab_splits">Splits</string>
+    <string name="tab_recoil">Recoil</string>
+    <string name="tab_timer">Timer</string>
 </resources>
