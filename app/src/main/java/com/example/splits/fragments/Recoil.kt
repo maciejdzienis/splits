@@ -10,35 +10,22 @@ import androidx.fragment.app.Fragment
 import com.example.splits.R
 import com.example.splits.timer
 
-class Splits: Fragment() {
+class Recoil: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_splits,
+        return inflater.inflate(
+            R.layout.fragment_recoil,
             container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btnAddDelay: Button = view.findViewById(R.id.btnAddDelay)
-        val tvDelay: TextView = view.findViewById(R.id.tvDelay)
-        val btnReduceDelay: Button = view.findViewById(R.id.btnReduceDelay)
-        val btnReduceSplit: Button = view.findViewById(R.id.btnReduceSplit)
-        val btnAddSplit: Button = view.findViewById(R.id.btnAddSplit)
-        val tvTimer: TextView = view.findViewById(R.id.tvTimer)
+        val btnReduceSplit: Button = view.findViewById(R.id.btnReduceSplit2)
+        val btnAddSplit: Button = view.findViewById(R.id.btnAddSplit2)
+        val tvTimer: TextView = view.findViewById(R.id.tvTimer2)
 
-        tvDelay.text = timer.delay.toString()
         tvTimer.text = timer.split.toString()
-
-        btnAddDelay.setOnClickListener {
-            timer.modifyDelay("+")
-            tvDelay.text = timer.delay.toString()
-        }
-
-        btnReduceDelay.setOnClickListener {
-            timer.modifyDelay("-")
-            tvDelay.text = timer.delay.toString()
-        }
 
         btnAddSplit.setOnClickListener {
             timer.modifySplit("+")
@@ -50,6 +37,5 @@ class Splits: Fragment() {
             tvTimer.text = timer.split.toString()
         }
     }
-
 
 }

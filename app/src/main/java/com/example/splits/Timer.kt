@@ -57,6 +57,7 @@ class Timer {
         }
         val df = DecimalFormat("#.#")
         df.roundingMode = RoundingMode.HALF_UP
-        split = df.format(split).toDouble()
+        val converted = df.format(split).toDouble()
+        split = converted
     }
 }

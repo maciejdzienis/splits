@@ -9,8 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.room.Room
 import com.example.splits.databinding.ActivityMainBinding
+import com.example.splits.fragments.Counter
+import com.example.splits.fragments.Recoil
+import com.example.splits.fragments.Splits
 import com.example.splits.room.LikedDatabase
 import com.example.splits.room.LikedItem
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -36,10 +40,14 @@ class MainActivity : AppCompatActivity() {
             .allowMainThreadQueries()
             .build()
 
-        //INIT
+        //FRAGMENT MANAGER
 
-        val tvDelay: TextView = view.findViewById(R.id.tvDelay)
-        val tvTimer: TextView = view.findViewById(R.id.tvTimer)
+        val fm = supportFragmentManager
+        val fragmentSplits = Splits()
+        val fragmentRecoil = Recoil()
+        val fragmentTimer = Counter()
+        fm.beginTransaction().replace(R.id.fragment, fragmentSplits).commit()
+
 
         //RECEIVE AND SET EXTRAS FROM LIKED IF EXIST
 
@@ -47,14 +55,8 @@ class MainActivity : AppCompatActivity() {
         val splitValue = intent.getData("split_value")
 
         if (delayValue != "intent is null") {
-            tvDelay.text = delayValue
-            tvTimer.text = splitValue
             timer.delay = delayValue.toInt()
             timer.split = splitValue.toDouble()
-        } else {
-            //USE OBJECT'S DATA
-            tvDelay.text = timer.delay.toString()
-            tvTimer.text = timer.split.toString()
         }
 
         //ONCLICK EVENTS
@@ -78,6 +80,27 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+
+        //TABs ITEM ACTIONS
+
+        binding.tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+
+            override fun onTabSelected(tab : TabLayout.Tab) {
+                when (tab.position) {
+                    0 -> fm.beginTransaction().replace(R.id.fragment, fragmentSplits).commit()
+                    1 -> fm.beginTransaction().replace(R.id.fragment, fragmentRecoil).commit()
+                    2 -> fm.beginTransaction().replace(R.id.fragment, fragmentTimer).commit()
+                }
+
+            }
+            override fun onTabUnselected(p0: TabLayout.Tab?) {
+
+            }
+            override fun onTabReselected(p0: TabLayout.Tab?) {
+
+            }
+        })
+
 
         //MENU ITEM ACTIONS
 
