@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.room.Room
 import com.example.splits.databinding.ActivityMainBinding
-import com.example.splits.fragments.Counter
 import com.example.splits.fragments.Recoil
 import com.example.splits.fragments.Splits
 import com.example.splits.room.LikedDatabase
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val fm = supportFragmentManager
         val fragmentSplits = Splits()
         val fragmentRecoil = Recoil()
-        val fragmentTimer = Counter()
+
         fm.beginTransaction().replace(R.id.fragment, fragmentSplits).commit()
 
 
@@ -62,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         //ONCLICK EVENTS
 
         binding.btnStart.setOnClickListener {
-            if (infiniteLoopJob?.isActive == true){
+            if (infiniteLoopJob?.isActive == true || infiniteIntervalLoopJob?.isActive == true){
                 binding.btnStart.setImageDrawable(
                     ContextCompat.getDrawable(
                         applicationContext,
@@ -71,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                 )
                 timer.stop()
             } else {
-                timer.playInfiniteLoop()
+                if (tabSelected == 0) timer.playInfiniteLoop() else timer.playInfiniteIntervalLoop()
                 binding.btnStart.setImageDrawable(
                     ContextCompat.getDrawable(
                         applicationContext,
@@ -87,9 +86,14 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTabSelected(tab : TabLayout.Tab) {
                 when (tab.position) {
-                    0 -> fm.beginTransaction().replace(R.id.fragment, fragmentSplits).commit()
-                    1 -> fm.beginTransaction().replace(R.id.fragment, fragmentRecoil).commit()
-                    2 -> fm.beginTransaction().replace(R.id.fragment, fragmentTimer).commit()
+                    0 -> {
+                        tabSelected = 0
+                        fm.beginTransaction().replace(R.id.fragment, fragmentSplits).commit()
+                    }
+                    1 -> {
+                        tabSelected = 1
+                        fm.beginTransaction().replace(R.id.fragment, fragmentRecoil).commit()
+                    }
                 }
 
             }
@@ -146,6 +150,9 @@ class MainActivity : AppCompatActivity() {
 //TASKS
 
 var infiniteLoopJob: Job? = null
+var infiniteIntervalLoopJob: Job? = null
+
+var tabSelected :Int = 0
 
 var timer = Timer()
 

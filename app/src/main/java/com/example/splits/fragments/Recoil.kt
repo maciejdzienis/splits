@@ -21,20 +21,20 @@ class Recoil: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btnReduceSplit: Button = view.findViewById(R.id.btnReduceSplit2)
-        val btnAddSplit: Button = view.findViewById(R.id.btnAddSplit2)
-        val tvTimer: TextView = view.findViewById(R.id.tvTimer2)
+        val btnReduceSplit: Button = view.findViewById(R.id.btnReduceInterval)
+        val btnAddSplit: Button = view.findViewById(R.id.btnAddInterval)
+        val tvTimer: TextView = view.findViewById(R.id.tvInterval)
 
-        tvTimer.text = timer.split.toString()
+        tvTimer.text = timer.interval.toString()
 
         btnAddSplit.setOnClickListener {
-            timer.modifySplit("+")
-            tvTimer.text = timer.split.toString()
+            timer.modifyInterval("+")
+            tvTimer.text = timer.interval.toString()
         }
 
         btnReduceSplit.setOnClickListener {
-            timer.modifySplit("-")
-            tvTimer.text = timer.split.toString()
+            timer.modifyInterval("-")
+            tvTimer.text = timer.interval.toString()
         }
     }
 

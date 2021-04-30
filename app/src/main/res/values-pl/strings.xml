@@ -3,10 +3,10 @@
     <string name="app_name">Splits!</string>
     <string name="delay_sec">Opóźnienie (s)</string>
     <string name="split_time_sec">Rozłam (s)</string>
+    <string name="interval_time_sec">Interwał (sec)</string>
     <string name="split_time">Rozłam</string>
     <string name="item_added">Dodano</string>
     <string name="delay">Opóźnienie</string>
     <string name="tab_splits">Rozłam</string>
     <string name="tab_recoil">Odrzut</string>
-    <string name="tab_timer">Stoper</string>
 </resources>

@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/btnAddSplit2"
+        android:id="@+id/btnAddInterval"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="72dp"
         android:layout_height="72dp"
@@ -15,14 +15,14 @@
         android:textColor="@color/teal_200"
         android:textSize="24sp"
 
-        app:layout_constraintBottom_toBottomOf="@+id/tvTimer2"
-        app:layout_constraintEnd_toStartOf="@+id/tvTimer2"
-        app:layout_constraintTop_toTopOf="@+id/tvTimer2"
+        app:layout_constraintBottom_toBottomOf="@+id/tvInterval"
+        app:layout_constraintEnd_toStartOf="@+id/tvInterval"
+        app:layout_constraintTop_toTopOf="@+id/tvInterval"
         app:layout_constraintVertical_chainStyle="packed"
         app:rippleColor="@color/white" />
 
     <TextView
-        android:id="@+id/tvTimer2"
+        android:id="@+id/tvInterval"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="108sp"
@@ -34,16 +34,16 @@
         tools:text="1" />
 
     <Button
-        android:id="@+id/btnReduceSplit2"
+        android:id="@+id/btnReduceInterval"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:text="-"
         android:textColor="@color/teal_200"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvTimer2"
-        app:layout_constraintStart_toEndOf="@+id/tvTimer2"
-        app:layout_constraintTop_toTopOf="@+id/tvTimer2"
+        app:layout_constraintBottom_toBottomOf="@+id/tvInterval"
+        app:layout_constraintStart_toEndOf="@+id/tvInterval"
+        app:layout_constraintTop_toTopOf="@+id/tvInterval"
         app:layout_constraintVertical_chainStyle="packed"
         app:rippleColor="@color/white" />
 
@@ -52,9 +52,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="@string/split_time_sec"
+        android:text="@string/interval_time_sec"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvTimer2"
+        app:layout_constraintBottom_toTopOf="@+id/tvInterval"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
