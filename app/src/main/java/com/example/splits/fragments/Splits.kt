@@ -12,8 +12,6 @@ import com.example.splits.timer
 
 class Splits: Fragment() {
 
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splits,
             container, false)
@@ -29,11 +27,8 @@ class Splits: Fragment() {
         val btnAddSplit: Button = view.findViewById(R.id.btnAddSplit)
         val tvTimer: TextView = view.findViewById(R.id.tvTimer)
 
-
-        btnAddDelay.setOnClickListener {
-            timer.modifyDelay("+")
-            tvDelay.text = timer.delay.toString()
-        }
+        tvDelay.text = timer.delay.toString()
+        tvTimer.text = timer.split.toString()
 
         btnAddDelay.setOnClickListener {
             timer.modifyDelay("+")
