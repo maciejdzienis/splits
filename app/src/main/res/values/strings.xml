@@ -8,4 +8,8 @@
     <string name="item_added">Added</string>
     <string name="tab_splits">Splits</string>
     <string name="tab_recoil">Recoil</string>
+    <string name="delete_all_title">Delete All?</string>
+    <string name="accept">OK</string>
+    <string name="decline">CANCEL</string>
+    <string name="nothing_to_delete">Nothing to Delete</string>
 </resources>

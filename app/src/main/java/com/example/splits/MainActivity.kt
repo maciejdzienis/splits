@@ -17,10 +17,13 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var tabSelected by Delegates.notNull<Int>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +84,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         //TABs ITEM ACTIONS
-
         binding.tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab : TabLayout.Tab) {
@@ -114,13 +116,22 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_add -> {
-                val item = LikedItem(timer.delay.toString(), timer.split.toString())
-                db.likedDao().insert(item)
-                addLiked()
+
+                if (tabSelected == 0) {
+                    val item = LikedItem(timer.delay.toString(), timer.split.toString())
+                    db.likedDao().insert(item)
+                    addLiked()
+                }
+
                 true
             }
             else -> false
         } }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        tabSelected = 0
     }
 
     private fun showToast(text: String) {
@@ -152,7 +163,7 @@ class MainActivity : AppCompatActivity() {
 var infiniteLoopJob: Job? = null
 var infiniteIntervalLoopJob: Job? = null
 
-var tabSelected :Int = 0
+
 
 var timer = Timer()
 

@@ -3,6 +3,7 @@ package com.example.splits
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +12,7 @@ import androidx.room.Room
 import com.example.splits.room.LikedDatabase
 import com.example.splits.room.LikedItem
 import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -46,10 +48,22 @@ class LikedActivity : AppCompatActivity() {
                 true
             }
             R.id.action_delete -> {
-                GlobalScope.launch {
-                    db.likedDao().deleteAll()
+                if (globalData.isNotEmpty()) {
+                    MaterialAlertDialogBuilder(this)
+                        .setTitle(resources.getString(R.string.delete_all_title))
+                        .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
+                            // Respond to negative button press
+                        }
+                        .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                            GlobalScope.launch {
+                                db.likedDao().deleteAll()
+                            }
+                            backNav()
+                        }
+                        .show()
+                } else {
+                    Toast.makeText(this, getString(R.string.nothing_to_delete), Toast.LENGTH_SHORT).show()
                 }
-                backNav()
                 true
             }
             else -> false
