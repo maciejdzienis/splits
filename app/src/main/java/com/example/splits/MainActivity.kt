@@ -95,17 +95,11 @@ class MainActivity : AppCompatActivity() {
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab) {
+                tabSelected = tab.position
                 when (tab.position) {
-                    0 -> {
-                        tabSelected = 0
-                        fm.beginTransaction().replace(R.id.fragment, fragmentSplits).commit()
-                    }
-                    1 -> {
-                        tabSelected = 1
-                        fm.beginTransaction().replace(R.id.fragment, fragmentRecoil).commit()
-                    }
+                    0 -> fm.beginTransaction().replace(R.id.fragment, fragmentSplits).commit()
+                    1 -> fm.beginTransaction().replace(R.id.fragment, fragmentRecoil).commit()
                 }
-
             }
 
             override fun onTabUnselected(p0: TabLayout.Tab?) {
@@ -127,7 +121,6 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.action_add -> {
-
                     if (tabSelected == 0) {
                         val item = LikedItem(timer.delay.toString(), timer.split.toString())
                         db.likedItemDao().insert(item)
@@ -135,7 +128,6 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         val pref = getSharedPreferences("Shared Preferences", Context.MODE_PRIVATE)
                         val editor = pref.edit()
-
                         editor
                             .putString("INTERVAL", timer.interval.toString())
                             .apply()
@@ -150,7 +142,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        tabSelected = 0
+        tabSelected = binding.tabLayout.selectedTabPosition
+        timer.stop()
+        binding.btnStart.setImageDrawable(
+            ContextCompat.getDrawable(
+                applicationContext,
+                R.drawable.ic_baseline_start
+            )
+        )
+
     }
 
     private fun showToast(text: String) {

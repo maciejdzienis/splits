@@ -71,7 +71,8 @@ class LikedActivity : AppCompatActivity() {
     }
 
     private fun backNav() {
-        var backIntent = Intent(applicationContext, MainActivity::class.java)
-        startActivity(backIntent)
+        finish()
+    //        var backIntent = Intent(applicationContext, MainActivity::class.java)
+//        startActivity(backIntent)
     }
 }
