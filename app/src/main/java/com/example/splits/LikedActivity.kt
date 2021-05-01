@@ -31,7 +31,7 @@ class LikedActivity : AppCompatActivity() {
             .allowMainThreadQueries()
             .build()
 
-        var globalData = db.likedDao().getAll()
+        var globalData = db.likedItemDao().getAll()
 
 
 
@@ -42,7 +42,7 @@ class LikedActivity : AppCompatActivity() {
 
         //MENU ITEM ACTIONS
         val bottomAppBar: BottomAppBar = findViewById(R.id.bottomAppBar)
-        bottomAppBar?.setOnMenuItemClickListener { menuItem -> when (menuItem.itemId) {
+        bottomAppBar.setOnMenuItemClickListener { menuItem -> when (menuItem.itemId) {
             R.id.action_back -> {
                 backNav()
                 true
@@ -56,7 +56,7 @@ class LikedActivity : AppCompatActivity() {
                         }
                         .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
                             GlobalScope.launch {
-                                db.likedDao().deleteAll()
+                                db.likedItemDao().deleteAll()
                             }
                             backNav()
                         }
@@ -71,7 +71,6 @@ class LikedActivity : AppCompatActivity() {
     }
 
     private fun backNav() {
-        var backIntent = Intent(applicationContext, MainActivity::class.java)
-        startActivity(backIntent)
+        finish()
     }
 }

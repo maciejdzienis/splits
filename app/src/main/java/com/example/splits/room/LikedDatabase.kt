@@ -5,5 +5,5 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [LikedItem::class], version = 2, exportSchema = false)
 abstract class LikedDatabase : RoomDatabase() {
-    abstract fun likedDao(): LikedDao
+    abstract fun likedItemDao(): LikedDao
 }

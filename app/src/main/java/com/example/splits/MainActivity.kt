@@ -1,9 +1,8 @@
 package com.example.splits
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -14,9 +13,7 @@ import com.example.splits.fragments.Splits
 import com.example.splits.room.LikedDatabase
 import com.example.splits.room.LikedItem
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
@@ -35,12 +32,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         // ROOM DATABASE
+
         val db = Room.databaseBuilder(
             applicationContext,
             LikedDatabase::class.java, "liked_database"
         ).fallbackToDestructiveMigration()
             .allowMainThreadQueries()
             .build()
+
+        //SET INTERVAL FROM SHARED PREFERENCES
+
+        val pref = getSharedPreferences("Shared Preferences", Context.MODE_PRIVATE)
+        pref.apply {
+            val interval = getString("INTERVAL", "1.0")
+            if (interval != null) {
+                timer.interval = interval.toDouble()
+            }
+        }
+
 
         //FRAGMENT MANAGER
 
@@ -49,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         val fragmentRecoil = Recoil()
 
         fm.beginTransaction().replace(R.id.fragment, fragmentSplits).commit()
-
 
         //RECEIVE AND SET EXTRAS FROM LIKED IF EXIST
 
@@ -64,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         //ONCLICK EVENTS
 
         binding.btnStart.setOnClickListener {
-            if (infiniteLoopJob?.isActive == true || infiniteIntervalLoopJob?.isActive == true){
+            if (infiniteLoopJob?.isActive == true || infiniteIntervalLoopJob?.isActive == true) {
                 binding.btnStart.setImageDrawable(
                     ContextCompat.getDrawable(
                         applicationContext,
@@ -84,9 +92,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         //TABs ITEM ACTIONS
-        binding.tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
-            override fun onTabSelected(tab : TabLayout.Tab) {
+            override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {
                     0 -> {
                         tabSelected = 0
@@ -99,9 +107,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
+
             override fun onTabUnselected(p0: TabLayout.Tab?) {
 
             }
+
             override fun onTabReselected(p0: TabLayout.Tab?) {
 
             }
@@ -110,23 +120,32 @@ class MainActivity : AppCompatActivity() {
 
         //MENU ITEM ACTIONS
 
-        binding.bottomAppBar?.setOnMenuItemClickListener { menuItem -> when (menuItem.itemId) {
-            R.id.action_liked -> {
-                likedNav()
-                true
-            }
-            R.id.action_add -> {
-
-                if (tabSelected == 0) {
-                    val item = LikedItem(timer.delay.toString(), timer.split.toString())
-                    db.likedDao().insert(item)
-                    addLiked()
+        binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_liked -> {
+                    likedNav()
+                    true
                 }
+                R.id.action_add -> {
 
-                true
+                    if (tabSelected == 0) {
+                        val item = LikedItem(timer.delay.toString(), timer.split.toString())
+                        db.likedItemDao().insert(item)
+                        showToast(getString(R.string.item_added))
+                    } else {
+                        val pref = getSharedPreferences("Shared Preferences", Context.MODE_PRIVATE)
+                        val editor = pref.edit()
+
+                        editor
+                            .putString("INTERVAL", timer.interval.toString())
+                            .apply()
+                        showToast(getString(R.string.saved))
+                    }
+                    true
+                }
+                else -> false
             }
-            else -> false
-        } }
+        }
     }
 
     override fun onStart() {
@@ -146,11 +165,6 @@ class MainActivity : AppCompatActivity() {
         startActivity(likedIntent)
     }
 
-    private fun addLiked() {
-        val added = resources.getString(R.string.item_added)
-            showToast(added)
-    }
-
     //KOTLIN EXTENSION
     private fun Intent.getData(key: String): String {
         return extras?.getString(key) ?: "intent is null"
@@ -162,8 +176,6 @@ class MainActivity : AppCompatActivity() {
 
 var infiniteLoopJob: Job? = null
 var infiniteIntervalLoopJob: Job? = null
-
-
 
 var timer = Timer()
 

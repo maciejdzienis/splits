@@ -12,4 +12,5 @@
     <string name="accept">OK</string>
     <string name="decline">CANCEL</string>
     <string name="nothing_to_delete">Nothing to Delete</string>
+    <string name="saved">Saved as Default</string>
 </resources>
