@@ -19,8 +19,8 @@ android {
         applicationId 'com.patoka.splits'
         minSdkVersion 25
         targetSdkVersion 30
-        versionCode 4
-        versionName "4.0.2"
+        versionCode 6
+        versionName "6.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
