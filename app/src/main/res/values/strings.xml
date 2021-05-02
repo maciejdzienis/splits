@@ -7,7 +7,7 @@
     <string name="split_time">Split (sec)</string>
     <string name="item_added">Added</string>
     <string name="tab_splits">Splits</string>
-    <string name="tab_recoil">Recoil</string>
+    <string name="tab_recoil">Intervals</string>
     <string name="delete_all_title">Delete All?</string>
     <string name="accept">OK</string>
     <string name="decline">CANCEL</string>

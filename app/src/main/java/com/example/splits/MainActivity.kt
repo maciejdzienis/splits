@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.commit
 import androidx.room.Room
 import com.example.splits.databinding.ActivityMainBinding
 import com.example.splits.fragments.Recoil
@@ -53,11 +54,12 @@ class MainActivity : AppCompatActivity() {
 
         //FRAGMENT MANAGER
 
-        val fm = supportFragmentManager
         val fragmentSplits = Splits()
         val fragmentRecoil = Recoil()
 
-        fm.beginTransaction().replace(R.id.fragment, fragmentSplits).commit()
+        supportFragmentManager.commit {
+            replace(R.id.fragment, fragmentSplits)
+        }
 
         //RECEIVE AND SET EXTRAS FROM LIKED IF EXIST
 
@@ -97,8 +99,24 @@ class MainActivity : AppCompatActivity() {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 tabSelected = tab.position
                 when (tab.position) {
-                    0 -> fm.beginTransaction().replace(R.id.fragment, fragmentSplits).commit()
-                    1 -> fm.beginTransaction().replace(R.id.fragment, fragmentRecoil).commit()
+                    0 -> {
+                        supportFragmentManager.commit {
+                        setCustomAnimations(
+                            R.anim.from_left,
+                            R.anim.fade_out
+                        )
+                        replace(R.id.fragment, fragmentSplits)
+                        }
+                    }
+                    1 -> {
+                        supportFragmentManager.commit {
+                            setCustomAnimations(
+                                R.anim.from_right,
+                                R.anim.fade_out
+                            )
+                            replace(R.id.fragment, fragmentRecoil)
+                        }
+                    }
                 }
             }
 
