@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.splits.viewmodels.MainViewModel
 import com.example.splits.R
-import com.example.splits.timer
 
 class Recoil: Fragment() {
 
@@ -21,20 +22,22 @@ class Recoil: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
         val btnReduceSplit: Button = view.findViewById(R.id.btnReduceInterval)
         val btnAddSplit: Button = view.findViewById(R.id.btnAddInterval)
         val tvTimer: TextView = view.findViewById(R.id.tvInterval)
 
-        tvTimer.text = timer.interval.toString()
+        tvTimer.text = viewModel.returnIntervalString()
 
         btnAddSplit.setOnClickListener {
-            timer.modifyInterval("+")
-            tvTimer.text = timer.interval.toString()
+            viewModel.interval.modifyInterval("+")
+            tvTimer.text = viewModel.returnIntervalString()
         }
 
         btnReduceSplit.setOnClickListener {
-            timer.modifyInterval("-")
-            tvTimer.text = timer.interval.toString()
+            viewModel.interval.modifyInterval("-")
+            tvTimer.text = viewModel.returnIntervalString()
         }
     }
 

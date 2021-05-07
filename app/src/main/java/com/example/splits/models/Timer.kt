@@ -1,12 +1,13 @@
-package com.example.splits
+package com.example.splits.models
 
 import android.media.AudioManager
 import android.media.ToneGenerator
+import com.example.splits.infiniteIntervalLoopJob
+import com.example.splits.infiniteLoopJob
 import kotlinx.coroutines.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import kotlin.math.roundToLong
 
 class Timer {
     var delay :Int = 5

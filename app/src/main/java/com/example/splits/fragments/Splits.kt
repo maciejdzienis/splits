@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.splits.R
-import com.example.splits.timer
+import com.example.splits.viewmodels.MainViewModel
 
 class Splits: Fragment() {
 
@@ -20,6 +21,8 @@ class Splits: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
         val btnAddDelay: Button = view.findViewById(R.id.btnAddDelay)
         val tvDelay: TextView = view.findViewById(R.id.tvDelay)
         val btnReduceDelay: Button = view.findViewById(R.id.btnReduceDelay)
@@ -27,27 +30,27 @@ class Splits: Fragment() {
         val btnAddSplit: Button = view.findViewById(R.id.btnAddSplit)
         val tvTimer: TextView = view.findViewById(R.id.tvTimer)
 
-        tvDelay.text = timer.delay.toString()
-        tvTimer.text = timer.split.toString()
+        tvDelay.text = viewModel.returnDelayString()
+        tvTimer.text = viewModel.returnSplitString()
 
         btnAddDelay.setOnClickListener {
-            timer.modifyDelay("+")
-            tvDelay.text = timer.delay.toString()
+            viewModel.timer.modifyDelay("+")
+            tvDelay.text = viewModel.returnDelayString()
         }
 
         btnReduceDelay.setOnClickListener {
-            timer.modifyDelay("-")
-            tvDelay.text = timer.delay.toString()
+            viewModel.timer.modifyDelay("-")
+            tvDelay.text = viewModel.returnDelayString()
         }
 
         btnAddSplit.setOnClickListener {
-            timer.modifySplit("+")
-            tvTimer.text = timer.split.toString()
+            viewModel.timer.modifySplit("+")
+            tvTimer.text = viewModel.returnSplitString()
         }
 
         btnReduceSplit.setOnClickListener {
-            timer.modifySplit("-")
-            tvTimer.text = timer.split.toString()
+            viewModel.timer.modifySplit("-")
+            tvTimer.text = viewModel.returnSplitString()
         }
     }
 
