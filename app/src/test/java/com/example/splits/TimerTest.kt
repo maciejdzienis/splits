@@ -1,5 +1,6 @@
 package com.example.splits
 
+import com.example.splits.models.Timer
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test

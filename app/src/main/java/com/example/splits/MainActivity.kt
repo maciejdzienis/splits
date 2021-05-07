@@ -7,24 +7,31 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
+import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.example.splits.databinding.ActivityMainBinding
 import com.example.splits.fragments.Recoil
 import com.example.splits.fragments.Splits
+import com.example.splits.models.Timer
 import com.example.splits.room.LikedDatabase
 import com.example.splits.room.LikedItem
+import com.example.splits.viewmodels.MainViewModel
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.Job
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
-
+    private  lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
     private var tabSelected by Delegates.notNull<Int>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // VIEW MODEL
+
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         // VIEW BINDING
 
@@ -47,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         pref.apply {
             val interval = getString("INTERVAL", "1.0")
             if (interval != null) {
-                timer.interval = interval.toDouble()
+                viewModel.interval.value = interval.toDouble()
             }
         }
 
@@ -67,8 +74,8 @@ class MainActivity : AppCompatActivity() {
         val splitValue = intent.getData("split_value")
 
         if (delayValue != "intent is null") {
-            timer.delay = delayValue.toInt()
-            timer.split = splitValue.toDouble()
+            viewModel.timer.delay = delayValue.toInt()
+            viewModel.timer.split = splitValue.toDouble()
         }
 
         //ONCLICK EVENTS
@@ -81,9 +88,9 @@ class MainActivity : AppCompatActivity() {
                         R.drawable.ic_baseline_start
                     )
                 )
-                timer.stop()
+                viewModel.stopJobs()
             } else {
-                if (tabSelected == 0) timer.playInfiniteLoop() else timer.playInfiniteIntervalLoop()
+                if (tabSelected == 0) viewModel.timer.playInfiniteLoop() else viewModel.interval.playInfiniteIntervalLoop()
                 binding.btnStart.setImageDrawable(
                     ContextCompat.getDrawable(
                         applicationContext,
@@ -140,14 +147,14 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.action_add -> {
                     if (tabSelected == 0) {
-                        val item = LikedItem(timer.delay.toString(), timer.split.toString())
+                        val item = LikedItem(viewModel.returnDelayString(), viewModel.returnSplitString())
                         db.likedItemDao().insert(item)
                         showToast(getString(R.string.item_added))
                     } else {
                         val pref = getSharedPreferences("Shared Preferences", Context.MODE_PRIVATE)
                         val editor = pref.edit()
                         editor
-                            .putString("INTERVAL", timer.interval.toString())
+                            .putString("INTERVAL", viewModel.returnIntervalString())
                             .apply()
                         showToast(getString(R.string.saved))
                     }
@@ -161,7 +168,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         tabSelected = binding.tabLayout.selectedTabPosition
-        timer.stop()
+        viewModel.stopJobs()
         binding.btnStart.setImageDrawable(
             ContextCompat.getDrawable(
                 applicationContext,
@@ -177,7 +184,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun likedNav() {
-        timer.stop()
+        viewModel.stopJobs()
         //EXPLICIT INTENT
         var likedIntent = Intent(applicationContext, LikedActivity::class.java)
         startActivity(likedIntent)
@@ -194,8 +201,5 @@ class MainActivity : AppCompatActivity() {
 
 var infiniteLoopJob: Job? = null
 var infiniteIntervalLoopJob: Job? = null
-
-var timer = Timer()
-
 
 
