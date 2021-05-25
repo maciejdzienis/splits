@@ -12,7 +12,6 @@ import java.text.DecimalFormatSymbols
 class Timer {
     var delay :Int = 5
     var split :Double = 1.5
-    var interval :Double = 1.0
 
     fun playInfiniteLoop() {
         var i = 0
@@ -34,20 +33,8 @@ class Timer {
         }
     }
 
-    fun playInfiniteIntervalLoop() {
-        val tg = ToneGenerator(AudioManager.STREAM_ALARM, 100)
-        infiniteIntervalLoopJob = GlobalScope.launch(Dispatchers.Default) {
-            while (isActive) {
-                tg.startTone(ToneGenerator.TONE_PROP_BEEP, 35)
-                var splitInMillis = interval * 1000
-                delay(splitInMillis.toLong())
-            }
-        }
-    }
-
     fun stop() {
         infiniteLoopJob?.cancel()
-        infiniteIntervalLoopJob?.cancel()
     }
 
 
@@ -77,25 +64,4 @@ class Timer {
         val converted = df.format(split).toDouble()
         split = converted
     }
-
-    fun modifyInterval( modifier: String) {
-        val increment = 0.1
-        if (interval >= 0.1) {
-            when (modifier) {
-                "+" -> interval += increment
-                "-" -> interval -= increment
-            }
-        } else {
-            when (modifier) {
-                "+" -> interval += increment
-            }
-        }
-        val setSymbol = DecimalFormatSymbols()
-        setSymbol.decimalSeparator = '.'
-        val df = DecimalFormat("#.#", setSymbol)
-        df.roundingMode = RoundingMode.HALF_UP
-        val converted = df.format(interval).toDouble()
-        interval = converted
-    }
-
 }

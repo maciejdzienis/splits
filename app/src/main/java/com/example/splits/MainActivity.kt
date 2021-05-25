@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.action_add -> {
                     if (tabSelected == 0) {
-                        val item = LikedItem(viewModel.returnDelayString(), viewModel.returnSplitString())
+                        val item = LikedItem(viewModel.timer.delay.toString(), viewModel.timer.split.toString())
                         db.likedItemDao().insert(item)
                         showToast(getString(R.string.item_added))
                     } else {
